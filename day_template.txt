@@ -1,0 +1,51 @@
+package day{{.Day}}
+
+import (
+    "bufio"
+    "fmt"
+    "os"
+
+    "github.com/sirupsen/logrus"
+
+    "github.com/denysvitali/aoc-2024/framework"
+)
+
+var log = logrus.StandardLogger()
+
+func init(){
+    framework.Registry.Register({{.Day}}, day{})
+}
+
+type day struct{}
+
+// TODO: Implement parse
+func parse(f *os.File) ([][]rune, error) {
+    var m [][]rune
+    scanner := bufio.NewScanner(f)
+    for scanner.Scan() {
+        line := scanner.Text()
+        if line == "" {
+            continue
+        }
+        m = append(m, []rune(line))
+    }
+    return m, nil
+}
+
+// TODO: Implement Part1
+func (d day) Part1(f *os.File) error {
+    _, err := parse(f)
+    if err != nil {
+        return fmt.Errorf("error parsing file: %w", err)
+    }
+    return nil
+}
+
+// TODO: Implement Part2
+func (d day) Part2(f *os.File) error {
+    _, err := parse(f)
+    if err != nil {
+       return fmt.Errorf("error parsing file: %w", err)
+    }
+    return nil
+}

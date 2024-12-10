@@ -1,52 +1,51 @@
 package main
 
 import (
-	"fmt"
 	"github.com/alexflint/go-arg"
-	"github.com/denysvitali/aoc-2024/framework"
 	"github.com/sirupsen/logrus"
-	"os"
 
+	// <AUTOMATIC-IMPORT>
 	_ "github.com/denysvitali/aoc-2024/day01"
+	_ "github.com/denysvitali/aoc-2024/day02"
+	_ "github.com/denysvitali/aoc-2024/day03"
+	_ "github.com/denysvitali/aoc-2024/day04"
+	_ "github.com/denysvitali/aoc-2024/day05"
+	_ "github.com/denysvitali/aoc-2024/day06"
+	_ "github.com/denysvitali/aoc-2024/day07"
+	_ "github.com/denysvitali/aoc-2024/day08"
+	_ "github.com/denysvitali/aoc-2024/day09"
+	_ "github.com/denysvitali/aoc-2024/day10"
+	// </AUTOMATIC-IMPORT>
 )
 
-var args struct {
+type DayCmd struct {
 	Day int `arg:"positional,required"`
+}
+
+type GenerateCmd struct {
+	Day int `arg:"positional,required"`
+}
+
+var args struct {
+	Day      *DayCmd `arg:"subcommand:day"`
+	Generate *DayCmd `arg:"subcommand:generate"`
 }
 
 var log = logrus.StandardLogger()
 
 func main() {
 	arg.MustParse(&args)
+	log.SetLevel(logrus.DebugLevel)
 
-	d := framework.Registry.Get(args.Day)
-	if d == nil {
-		log.Fatalf("day %d not found", args.Day)
+	if args.Generate != nil {
+		generate(args.Generate.Day)
 		return
 	}
-
-	run(d, "example")
-	run(d, "input")
+	if args.Day != nil {
+		runDay(args.Day.Day)
+		return
+	}
+	log.Fatalf("no command specified")
 }
 
-func run(d framework.Day, s string) {
-	f, err := os.Open(fmt.Sprintf("day%02d/%s.txt", args.Day, s))
-	if err != nil {
-		log.Fatalf("open %s file: %v", s, err)
-	}
-	if err := d.Part1(f); err != nil {
-		log.Fatalf("day %d - part 1 %s: %v", args.Day, s, err)
-	}
-	f.Seek(0, 0)
-	if err := d.Part2(f); err != nil {
-		log.Fatalf("day %d - part 2 %s: %v", args.Day, s, err)
-	}
-}
 
-func getFile(name string) *os.File {
-	f, err := os.Open(fmt.Sprintf("day%02d/%s.txt", args.Day, name))
-	if err != nil {
-		log.Fatalf("open example file: %v", err)
-	}
-	return f
-}
