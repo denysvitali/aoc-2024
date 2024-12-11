@@ -104,20 +104,18 @@ type mem struct {
 }
 
 func (d *day) blink(stone int, totalLen int, amount int) int {
-	if v, ok := d.memoiz[mem{stone: stone, amount: amount}]; ok {
-		return v
-	}
 	if amount == 0 {
 		return 1
 	}
-
+	if v, ok := d.memoiz[mem{stone: stone, amount: amount}]; ok {
+		return v
+	}
 	mLen := 0
 	for _, s := range d.singleBlink(stone) {
 		mLen += d.blink(s, totalLen, amount-1)
 	}
 	d.memoiz[mem{stone: stone, amount: amount}] = mLen
 	return mLen
-
 }
 
 func (d *day) Part2(f *os.File) error {
@@ -133,5 +131,4 @@ func (d *day) Part2(f *os.File) error {
 	}
 	log.Infof("Final: %v", sum)
 	return nil
-
 }
