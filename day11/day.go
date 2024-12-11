@@ -16,10 +16,12 @@ import (
 var log = logrus.StandardLogger()
 
 func init() {
-	framework.Registry.Register(11, day{})
+	framework.Registry.Register(11, &day{})
 }
 
-type day struct{}
+type day struct {
+	memoiz map[mem]int
+}
 
 func parse(f *os.File) ([]int, error) {
 	var ints []int
@@ -67,51 +69,69 @@ func toNumber(digits []int) int {
 	return n
 }
 
-func (d day) Part1(f *os.File) error {
+func (d *day) Part1(f *os.File) error {
+	d.memoiz = make(map[mem]int)
 	stones, err := parse(f)
 	if err != nil {
 		return fmt.Errorf("error parsing file: %w", err)
 	}
 
-	for i := 0; i < 25; i++ {
-		stones = blink(stones, i)
+	sum := 0
+	for _, s := range stones {
+		sum += d.blink(s, 0, 25)
 	}
-	log.Infof("Final: %v", len(stones))
+	log.Infof("Final: %v", sum)
 	return nil
 }
 
-func blink(stones []int, i int) []int {
-	var newStones []int
-	for _, stone := range stones {
-		if stone == 0 {
-			newStones = append(newStones, 1)
-			continue
-		}
-		d := getDigits(stone)
-		if len(d)%2 == 0 {
-			newStones = append(newStones, toNumber(d[0:len(d)/2]))
-			newStones = append(newStones, toNumber(d[len(d)/2:]))
-			continue
-		}
-		newStones = append(newStones, stone*2024)
+func (d *day) singleBlink(stone int) (res []int) {
+	if stone == 0 {
+		return []int{1}
 	}
-	stones = newStones
-	if i < 3 {
-		log.Infof("[%d]: %v", i+1, stones)
+	digits := getDigits(stone)
+	if len(digits)%2 == 0 {
+		return []int{
+			toNumber(digits[0 : len(digits)/2]),
+			toNumber(digits[len(digits)/2:]),
+		}
 	}
-	return stones
+	return []int{stone * 2024}
 }
 
-func (d day) Part2(f *os.File) error {
+type mem struct {
+	stone  int
+	amount int
+}
+
+func (d *day) blink(stone int, totalLen int, amount int) int {
+	if v, ok := d.memoiz[mem{stone: stone, amount: amount}]; ok {
+		return v
+	}
+	if amount == 0 {
+		return 1
+	}
+
+	mLen := 0
+	for _, s := range d.singleBlink(stone) {
+		mLen += d.blink(s, totalLen, amount-1)
+	}
+	d.memoiz[mem{stone: stone, amount: amount}] = mLen
+	return mLen
+
+}
+
+func (d *day) Part2(f *os.File) error {
+	d.memoiz = make(map[mem]int)
 	stones, err := parse(f)
 	if err != nil {
 		return fmt.Errorf("error parsing file: %w", err)
 	}
 
-	for i := 0; i < 75; i++ {
-		stones = blink(stones, i)
+	sum := 0
+	for _, s := range stones {
+		sum += d.blink(s, 0, 75)
 	}
-	log.Infof("Final: %v", len(stones))
+	log.Infof("Final: %v", sum)
 	return nil
 
 }
