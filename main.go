@@ -16,11 +16,13 @@ import (
 	_ "github.com/denysvitali/aoc-2024/day09"
 	_ "github.com/denysvitali/aoc-2024/day10"
 	_ "github.com/denysvitali/aoc-2024/day11"
+	_ "github.com/denysvitali/aoc-2024/day12"
 	// </AUTOMATIC-IMPORT>
 )
 
 type DayCmd struct {
-	Day int `arg:"positional,required"`
+	Day  int `arg:"positional,required"`
+	Part int `arg:"-p,--part"`
 }
 
 type GenerateCmd struct {
@@ -28,8 +30,8 @@ type GenerateCmd struct {
 }
 
 var args struct {
-	Day      *DayCmd `arg:"subcommand:day"`
-	Generate *DayCmd `arg:"subcommand:generate"`
+	Day      *DayCmd      `arg:"subcommand:day"`
+	Generate *GenerateCmd `arg:"subcommand:generate"`
 }
 
 var log = logrus.StandardLogger()
@@ -43,11 +45,8 @@ func main() {
 		return
 	}
 	if args.Day != nil {
-		runDay(args.Day.Day)
+		runDay(args.Day.Day, args.Day.Part)
 		return
 	}
 	log.Fatalf("no command specified")
 }
-
-
-

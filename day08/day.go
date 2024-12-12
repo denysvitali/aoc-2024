@@ -72,10 +72,10 @@ func (p *pos) Minus(o pos) pos {
 	})
 }
 
-func (d day) Part1(f *os.File) error {
+func (d day) Part1(f *os.File) (int64, error) {
 	m, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 
 	var antennas map[rune][]pos
@@ -110,9 +110,7 @@ func (d day) Part1(f *os.File) error {
 			}
 		}
 	}
-
-	log.Infof("Unique: %d", unique)
-	return nil
+	return int64(unique), nil
 }
 
 func drawPos(m [][]rune, newPos pos, maxX int, maxY int) {
@@ -140,7 +138,7 @@ func printMap(m [][]rune) map[rune][]pos {
 	return antennas
 }
 
-func (d day) Part2(f *os.File) error {
+func (d day) Part2(f *os.File) (int64, error) {
 	// m, err := parse(f)
-	return nil
+	return 0, nil
 }

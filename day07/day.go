@@ -92,10 +92,10 @@ func pow10(n uint64) uint64 {
 	return result
 }
 
-func (d day) Part1(f *os.File) error {
+func (d day) Part1(f *os.File) (int64, error) {
 	m, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 
 	sum := uint64(0)
@@ -105,8 +105,7 @@ func (d day) Part1(f *os.File) error {
 		}
 	}
 
-	log.Infof("Sum: %d", sum)
-	return nil
+	return int64(sum), nil
 }
 
 func recEvaluate(elements []uint64, target uint64, idx int, value uint64, operators []rune) bool {
@@ -126,10 +125,10 @@ func recEvaluate(elements []uint64, target uint64, idx int, value uint64, operat
 	return false
 }
 
-func (d day) Part2(f *os.File) error {
+func (d day) Part2(f *os.File) (int64, error) {
 	m, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 
 	sum := uint64(0)
@@ -138,6 +137,5 @@ func (d day) Part2(f *os.File) error {
 			sum += o.res
 		}
 	}
-	log.Infof("Sum: %d", sum)
-	return nil
+	return int64(sum), nil
 }

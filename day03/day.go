@@ -67,10 +67,10 @@ func parse(f *os.File) ([]op, error) {
 	return ops, nil
 }
 
-func (d day) Part1(f *os.File) error {
+func (d day) Part1(f *os.File) (int64, error) {
 	mul, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 
 	sum := int64(0)
@@ -79,14 +79,13 @@ func (d day) Part1(f *os.File) error {
 			sum += v.args[0] * v.args[1]
 		}
 	}
-	log.Infof("Sum: %d", sum)
-	return nil
+	return sum, nil
 }
 
-func (d day) Part2(f *os.File) error {
+func (d day) Part2(f *os.File) (int64, error) {
 	ops, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 
 	sum := int64(0)
@@ -103,6 +102,5 @@ func (d day) Part2(f *os.File) error {
 			}
 		}
 	}
-	log.Infof("Sum: %d", sum)
-	return nil
+	return sum, nil
 }

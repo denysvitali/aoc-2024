@@ -3,11 +3,13 @@ package day02
 import (
 	"bufio"
 	"fmt"
-	"github.com/denysvitali/aoc-2024/framework"
-	"github.com/sirupsen/logrus"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/sirupsen/logrus"
+
+	"github.com/denysvitali/aoc-2024/framework"
 )
 
 var log = logrus.StandardLogger()
@@ -41,10 +43,10 @@ func parse(f *os.File) ([][]int64, error) {
 	return ints, nil
 }
 
-func (d day02) Part1(f *os.File) error {
+func (d day02) Part1(f *os.File) (int64, error) {
 	ints, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 
 	safe := 0
@@ -53,9 +55,7 @@ func (d day02) Part1(f *os.File) error {
 			safe++
 		}
 	}
-
-	log.Infof("Safe: %d", safe)
-	return nil
+	return int64(safe), nil
 }
 
 func isSafe(v []int64) bool {
@@ -79,10 +79,10 @@ func isSafe(v []int64) bool {
 	return true
 }
 
-func (d day02) Part2(f *os.File) error {
+func (d day02) Part2(f *os.File) (int64, error) {
 	ints, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 
 	safe := 0
@@ -104,5 +104,5 @@ func (d day02) Part2(f *os.File) error {
 	}
 
 	log.Infof("Safe: %d", safe)
-	return nil
+	return int64(safe), nil
 }

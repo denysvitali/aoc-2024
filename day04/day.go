@@ -34,19 +34,19 @@ func parse(f *os.File) ([][]rune, error) {
 	return matrix, nil
 }
 
-func (d day) Part1(f *os.File) error {
+func (d day) Part1(f *os.File) (int64, error) {
 	matrix, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 
 	sizeY := len(matrix)
 	if sizeY == 0 {
-		return fmt.Errorf("empty matrix")
+		return 0, fmt.Errorf("empty matrix")
 	}
 	sizeX := len(matrix[0])
 	if sizeX == 0 {
-		return fmt.Errorf("empty matrix")
+		return 0, fmt.Errorf("empty matrix")
 	}
 
 	log.Infof("Size: %dx%d", sizeX, sizeY)
@@ -58,9 +58,7 @@ func (d day) Part1(f *os.File) error {
 			sum += find(matrix, "SAMX", x, y)
 		}
 	}
-	log.Infof("Sum: %d", sum)
-
-	return nil
+	return int64(sum), nil
 }
 
 func find(matrix [][]rune, needle string, x int, y int) int {
@@ -148,19 +146,19 @@ func reverseString(s string) string {
 	return string(runes)
 }
 
-func (d day) Part2(f *os.File) error {
+func (d day) Part2(f *os.File) (int64, error) {
 	matrix, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 
 	sizeY := len(matrix)
 	if sizeY == 0 {
-		return fmt.Errorf("empty matrix")
+		return 0, fmt.Errorf("empty matrix")
 	}
 	sizeX := len(matrix[0])
 	if sizeX == 0 {
-		return fmt.Errorf("empty matrix")
+		return 0, fmt.Errorf("empty matrix")
 	}
 
 	log.Infof("Size: %dx%d", sizeX, sizeY)
@@ -171,6 +169,5 @@ func (d day) Part2(f *os.File) error {
 			sum += find2(matrix, "MAS", x, y)
 		}
 	}
-	log.Infof("Sum: %d", sum)
-	return nil
+	return int64(sum), nil
 }

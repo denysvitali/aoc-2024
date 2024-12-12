@@ -44,29 +44,26 @@ func (p point) OutOfBounds(maxX int, maxY int) bool {
 	return p.x >= maxX || p.x < 0 || p.y >= maxY || p.y < 0
 }
 
-func (d day) Part1(f *os.File) error {
+func (d day) Part1(f *os.File) (int64, error) {
 	m, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 	currGuardPos := getGuardPos(m)
 	_, visited := run(currGuardPos, m)
-	log.Infof("Steps: %d", len(visited))
-	return nil
+	return int64(len(visited)), nil
 }
 
 func isObstacle(p point, m [][]rune) bool {
 	return m[p.y][p.x] == '#'
 }
 
-func (d day) Part2(f *os.File) error {
+func (d day) Part2(f *os.File) (int64, error) {
 	m, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
-	loops := d.part2(m)
-	log.Infof("Loops: %d", loops)
-	return nil
+	return int64(d.part2(m)), nil
 }
 
 func (d day) part2(m [][]rune) int {

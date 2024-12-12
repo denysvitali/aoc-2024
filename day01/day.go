@@ -3,10 +3,12 @@ package day01
 import (
 	"bufio"
 	"fmt"
-	"github.com/denysvitali/aoc-2024/framework"
-	"github.com/sirupsen/logrus"
 	"os"
 	"sort"
+
+	"github.com/sirupsen/logrus"
+
+	"github.com/denysvitali/aoc-2024/framework"
 )
 
 var log = logrus.StandardLogger()
@@ -30,7 +32,7 @@ func (s sortInts) Swap(i, j int) {
 
 var _ sort.Interface = sortInts{}
 
-func (d day01) Part1(f *os.File) error {
+func (d day01) Part1(f *os.File) (int64, error) {
 	arr1 := make([]int64, 0)
 	arr2 := make([]int64, 0)
 	scanner := bufio.NewScanner(f)
@@ -41,7 +43,7 @@ func (d day01) Part1(f *os.File) error {
 		}
 		var a, b int64
 		if _, err := fmt.Sscanf(txt, "%d\t\t%d", &a, &b); err != nil {
-			return fmt.Errorf("parse: %w", err)
+			return 0, fmt.Errorf("parse: %w", err)
 		}
 		arr1 = append(arr1, a)
 		arr2 = append(arr2, b)
@@ -60,12 +62,9 @@ func (d day01) Part1(f *os.File) error {
 		}
 		sum += distances[i]
 	}
-
-	log.Infof("Part 1: %d", sum)
-
-	return nil
+	return sum, nil
 }
-func (d day01) Part2(f *os.File) error {
+func (d day01) Part2(f *os.File) (int64, error) {
 	arr1 := make([]int64, 0)
 	arr2 := make([]int64, 0)
 	scanner := bufio.NewScanner(f)
@@ -76,7 +75,7 @@ func (d day01) Part2(f *os.File) error {
 		}
 		var a, b int64
 		if _, err := fmt.Sscanf(txt, "%d\t\t%d", &a, &b); err != nil {
-			return fmt.Errorf("parse: %w", err)
+			return 0, fmt.Errorf("parse: %w", err)
 		}
 		arr1 = append(arr1, a)
 		arr2 = append(arr2, b)
@@ -100,9 +99,7 @@ func (d day01) Part2(f *os.File) error {
 		}
 		simSum = simSum + v*int64(v2)
 	}
-	log.Infof("Part 2: %d", simSum)
-
-	return nil
+	return simSum, nil
 }
 
 func init() {

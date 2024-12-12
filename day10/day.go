@@ -40,10 +40,10 @@ func parse(f *os.File) ([][]int, error) {
 	return m, nil
 }
 
-func (d day) Part1(f *os.File) error {
+func (d day) Part1(f *os.File) (int64, error) {
 	m, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("error parsing file: %w", err)
+		return 0, fmt.Errorf("error parsing file: %w", err)
 	}
 
 	var sumScore int
@@ -57,7 +57,7 @@ func (d day) Part1(f *os.File) error {
 	}
 
 	log.Infof("Sum score: %d", sumScore)
-	return nil
+	return int64(sumScore), nil
 }
 
 type pos struct {
@@ -115,10 +115,10 @@ func findPath(m [][]int, visited map[pos]struct{}, p pos, lastNumber int) (int, 
 	return s, r
 }
 
-func (d day) Part2(f *os.File) error {
+func (d day) Part2(f *os.File) (int64, error) {
 	m, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("error parsing file: %w", err)
+		return 0, fmt.Errorf("error parsing file: %w", err)
 	}
 
 	var sumRating int
@@ -130,8 +130,5 @@ func (d day) Part2(f *os.File) error {
 			}
 		}
 	}
-
-	log.Infof("Sum rating: %d", sumRating)
-	return nil
-
+	return int64(sumRating), nil
 }

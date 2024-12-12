@@ -69,11 +69,11 @@ func toNumber(digits []int) int {
 	return n
 }
 
-func (d *day) Part1(f *os.File) error {
+func (d *day) Part1(f *os.File) (int64, error) {
 	d.memoiz = make(map[mem]int)
 	stones, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("error parsing file: %w", err)
+		return 0, fmt.Errorf("error parsing file: %w", err)
 	}
 
 	sum := 0
@@ -81,7 +81,7 @@ func (d *day) Part1(f *os.File) error {
 		sum += d.blink(s, 0, 25)
 	}
 	log.Infof("Final: %v", sum)
-	return nil
+	return int64(sum), nil
 }
 
 func (d *day) singleBlink(stone int) (res []int) {
@@ -118,11 +118,11 @@ func (d *day) blink(stone int, totalLen int, amount int) int {
 	return mLen
 }
 
-func (d *day) Part2(f *os.File) error {
+func (d *day) Part2(f *os.File) (int64, error) {
 	d.memoiz = make(map[mem]int)
 	stones, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("error parsing file: %w", err)
+		return 0, fmt.Errorf("error parsing file: %w", err)
 	}
 
 	sum := 0
@@ -130,5 +130,5 @@ func (d *day) Part2(f *os.File) error {
 		sum += d.blink(s, 0, 75)
 	}
 	log.Infof("Final: %v", sum)
-	return nil
+	return int64(sum), nil
 }

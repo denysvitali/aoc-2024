@@ -44,15 +44,15 @@ type file struct {
 	blocks int
 }
 
-func (d day) Part1(f *os.File) error {
+func (d day) Part1(f *os.File) (int64, error) {
 	ints, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("error parsing file: %w", err)
+		return 0, fmt.Errorf("error parsing file: %w", err)
 	}
 
 	var fs []int
 	if len(ints)%2 != 1 {
-		return fmt.Errorf("even input")
+		return 0, fmt.Errorf("even input")
 	}
 
 	isFile := true
@@ -68,20 +68,16 @@ func (d day) Part1(f *os.File) error {
 	}
 
 	arrangeBlocks(fs)
-
-	checksum := calculateChecksum(fs)
-	log.Infof("Checksum: %d", checksum)
-
-	return nil
+	return calculateChecksum(fs), nil
 }
 
-func calculateChecksum(fs []int) int {
-	var checksum int
+func calculateChecksum(fs []int) int64 {
+	var checksum int64
 	for id, v := range fs {
 		if v == -1 {
 			continue
 		}
-		checksum += id * v
+		checksum += int64(id * v)
 	}
 	return checksum
 }
@@ -166,15 +162,15 @@ type block struct {
 	size    int
 }
 
-func (d day) Part2(f *os.File) error {
+func (d day) Part2(f *os.File) (int64, error) {
 	ints, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("error parsing file: %w", err)
+		return 0, fmt.Errorf("error parsing file: %w", err)
 	}
 
 	var fs []file
 	if len(ints)%2 != 1 {
-		return fmt.Errorf("even input")
+		return 0, fmt.Errorf("even input")
 	}
 
 	isFile := true
@@ -191,9 +187,6 @@ func (d day) Part2(f *os.File) error {
 
 	arrangeBlocksFrag(fs, len(ints))
 
-	checksum := calculateChecksum(expandFs(fs))
-	log.Infof("P2 Checksum: %d", checksum)
-
-	return nil
+	return calculateChecksum(expandFs(fs)), nil
 
 }

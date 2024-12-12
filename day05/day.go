@@ -65,10 +65,10 @@ func parse(f *os.File) (*instructions, error) {
 	return &ins, nil
 }
 
-func (d day) Part1(f *os.File) error {
+func (d day) Part1(f *os.File) (int64, error) {
 	ins, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 	orMap := map[int64][]int64{}
 	for _, rule := range ins.orderingRules {
@@ -101,15 +101,13 @@ func (d day) Part1(f *os.File) error {
 	for _, u := range validUpdates {
 		sumOfMiddles += u[len(u)/2]
 	}
-
-	log.Infof("Sum of middle elements: %d", sumOfMiddles)
-	return nil
+	return sumOfMiddles, nil
 }
 
-func (d day) Part2(f *os.File) error {
+func (d day) Part2(f *os.File) (int64, error) {
 	ins, err := parse(f)
 	if err != nil {
-		return fmt.Errorf("parse: %w", err)
+		return 0, fmt.Errorf("parse: %w", err)
 	}
 	orMap := map[int64][]int64{}
 	for _, rule := range ins.orderingRules {
@@ -145,8 +143,7 @@ func (d day) Part2(f *os.File) error {
 	for _, u := range fixedUpdates {
 		sumOfMiddles += u[len(u)/2]
 	}
-	log.Infof("Sum of middle elements: %d", sumOfMiddles)
-	return nil
+	return sumOfMiddles, nil
 }
 
 type customSort struct {
