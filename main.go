@@ -17,6 +17,7 @@ import (
 	_ "github.com/denysvitali/aoc-2024/day10"
 	_ "github.com/denysvitali/aoc-2024/day11"
 	_ "github.com/denysvitali/aoc-2024/day12"
+	_ "github.com/denysvitali/aoc-2024/day13"
 	// </AUTOMATIC-IMPORT>
 )
 
@@ -50,3 +51,4 @@ func main() {
 	}
 	log.Fatalf("no command specified")
 }
+
