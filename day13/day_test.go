@@ -43,7 +43,7 @@ func TestPart2Example(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, 1206, p2Res)
+	assert.Equal(t, 875318608908, p2Res)
 }
 
 func TestPart2Input(t *testing.T) {
@@ -56,5 +56,5 @@ func TestPart2Input(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, int64(-1), p2Res)
+	assert.Equal(t, int64(76358113886726), p2Res)
 }
