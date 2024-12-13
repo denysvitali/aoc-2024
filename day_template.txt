@@ -33,19 +33,19 @@ func parse(f *os.File) ([][]rune, error) {
 }
 
 // TODO: Implement Part1
-func (d day) Part1(f *os.File) error {
+func (d day) Part1(f *os.File) (int64, error) {
     _, err := parse(f)
     if err != nil {
-        return fmt.Errorf("error parsing file: %w", err)
+        return 0, fmt.Errorf("error parsing file: %w", err)
     }
-    return nil
+    return 0, nil
 }
 
 // TODO: Implement Part2
-func (d day) Part2(f *os.File) error {
+func (d day) Part2(f *os.File) (int64, error) {
     _, err := parse(f)
     if err != nil {
-       return fmt.Errorf("error parsing file: %w", err)
+       return 0, fmt.Errorf("error parsing file: %w", err)
     }
-    return nil
+    return 0, nil
 }
