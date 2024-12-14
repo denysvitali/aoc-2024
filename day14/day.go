@@ -263,7 +263,7 @@ func (d day) Part2(f *os.File) (int64, error) {
 		for _, q := range robotsPerQuad {
 			if float32(q) >= float32(tot)*0.5 {
 				printLocations2(robotLocations, maxX, maxY, i+1)
-				fmt.Println("Possible message at t=%d", i+1)
+				fmt.Printf("Possible message at t=%d\n", i+1)
 			}
 		}
 
